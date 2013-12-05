@@ -4,6 +4,8 @@
 typedef unsigned int	DWORD;
 typedef unsigned short	WORD;
 typedef long			LONG;
+typedef unsigned char	BYTE;
+typedef unsigned char *	PBYTE;
 
 #define BI_RGB				0	/*несжатое изображение*/
 #define BI_RLE8				1	/*сжатие RLE для 8-битных изображений*/
@@ -15,7 +17,7 @@ typedef long			LONG;
 
 #pragma pack(push)
 #pragma pack(1)
-typedef struct {
+typedef struct __BITMAPFILEHEADER {
 	WORD	bfType;
 	DWORD	bfSize;
 	WORD	bfReserved1;
@@ -23,7 +25,7 @@ typedef struct {
 	DWORD	bfOffBits;
 } BITMAPFILEHEADER, *PBITMAPFILEHEADER;
 
-typedef struct {
+typedef struct __BITMAPINFOHEADER {
   DWORD  biSize; 
   LONG   biWidth; 
   LONG   biHeight; 
@@ -36,6 +38,21 @@ typedef struct {
   DWORD  biClrUsed; 
   DWORD  biClrImportant; 
 } BITMAPINFOHEADER, *PBITMAPINFOHEADER;
+
+typedef struct __BITMAP {
+	union __bmHeader {
+		BITMAPFILEHEADER __bmfh;
+		PBITMAPFILEHEADER __inf;
+	} bmHeader;
+	PRGB_COLOR *bmPalete;
+	PRGB_COLOR *bmBody;
+} BITMAP, *PBITMAP;
+
+typedef struct __RGB_COLOR {
+	BYTE b;
+	BYTE g;
+	BYTE r;
+} RGB_COLOR, *PRGB_COLOR;
 #pragma pack(pop)
 
 #endif
