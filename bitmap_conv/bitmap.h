@@ -5,7 +5,6 @@ typedef unsigned int	DWORD;
 typedef unsigned short	WORD;
 typedef long			LONG;
 typedef unsigned char	BYTE;
-typedef unsigned char *	PBYTE;
 
 #define BI_RGB				0	/*несжатое изображение*/
 #define BI_RLE8				1	/*сжатие RLE для 8-битных изображений*/
@@ -39,20 +38,34 @@ typedef struct __BITMAPINFOHEADER {
   DWORD  biClrImportant; 
 } BITMAPINFOHEADER, *PBITMAPINFOHEADER;
 
-typedef struct __BITMAP {
-	union __bmHeader {
-		BITMAPFILEHEADER __bmfh;
-		PBITMAPFILEHEADER __inf;
-	} bmHeader;
-	PRGB_COLOR *bmPalete;
-	PRGB_COLOR *bmBody;
-} BITMAP, *PBITMAP;
-
 typedef struct __RGB_COLOR {
-	BYTE b;
-	BYTE g;
 	BYTE r;
+	BYTE g;
+	BYTE b;
 } RGB_COLOR, *PRGB_COLOR;
+
+typedef struct __BITMAPHEADER {
+	BITMAPFILEHEADER bmfh;
+	BITMAPINFOHEADER inf;
+} BITMAPHEADER, *PBITMAPHEADER;
+
+typedef struct __BITMAP {
+	BITMAPHEADER bmHeader;
+
+	DWORD bmPaletteLength;
+	PRGB_COLOR *bmPalette;
+
+	DWORD bmMatrixWidth;
+	DWORD bmMatrixHeight;
+	BYTE *bmMatrixBmp;
+} BITMAP, *PBITMAP;
 #pragma pack(pop)
+
+int read_bmp(const char *, PBITMAP);
+int read_bmp_palette(FILE *, PBITMAP);
+int read_bmp_matrix(FILE *, PBITMAP);
+PBITMAP assign_filter(BITMAP, const float *filter, int, int);
+BYTE to_byte(float);
+int write_bmp(const char *, BITMAP);
 
 #endif
