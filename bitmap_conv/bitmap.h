@@ -1,11 +1,18 @@
 #ifndef _BITMAP_
 #define _BITMAP_
 
-#define __IS_ARRAY		1
+#define __BMP_AS_ARRAY		1
+
+
+#if defined(WIN32) || defined(_WIN32) || defined(_W64)
+#define	__WINDOWS_OS
+#include <windows.h>
+#endif
 
 #pragma pack(push)
 #pragma pack(1)
 
+#ifndef __WINDOWS_OS
 typedef unsigned int	DWORD;
 typedef unsigned short	WORD;
 typedef long			LONG;
@@ -29,7 +36,7 @@ typedef struct __BITMAPFILEHEADER {
 
 typedef struct __BITMAPINFOHEADER {
   DWORD  biSize; 
-  LONG   biWidth; 
+  LONG   biWidth; __BITMAPIMAGE
   LONG   biHeight; 
   WORD   biPlanes; 
   WORD   biBitCount; 
@@ -40,6 +47,7 @@ typedef struct __BITMAPINFOHEADER {
   DWORD  biClrUsed; 
   DWORD  biClrImportant; 
 } BITMAPINFOHEADER, *PBITMAPINFOHEADER;
+#endif
 
 typedef struct __RGB_COLOR {
 	BYTE r;
@@ -52,7 +60,7 @@ typedef struct __BITMAPHEADER {
 	BITMAPINFOHEADER inf;
 } BITMAPHEADER, *PBITMAPHEADER;
 
-typedef struct __BITMAP {
+typedef struct __BITMAPIMAGE {
 	BITMAPHEADER bmHeader;
 
 	DWORD bmPaletteLength;
@@ -60,23 +68,26 @@ typedef struct __BITMAP {
 
 	DWORD bmMatrixWidth;
 	DWORD bmMatrixHeight;
-#if __IS_ARRAY
+#if __BMP_AS_ARRAY
 	BYTE *bmMatrixBmp;
 #else
 	PRGB_COLOR *bmMatrixBmp;
 #endif
-} BITMAP, *PBITMAP;
+} BITMAPIMAGE, *PBITMAPIMAGE;
 
 #pragma pack(pop)
 
-/* === FUNCTIONS PROTOTYPES === */
+/* === function prototypes === */
 
-int read_bmp(const char *, PBITMAP);
-int read_bmp_palette(FILE *, PBITMAP);
-int read_bmp_matrix(FILE *, PBITMAP);
-PBITMAP apply_filter(BITMAP, const float *filter, int, int);
+int read_bmp(const char *, PBITMAPIMAGE);
+int read_bmp_palette(FILE *, PBITMAPIMAGE);
+
+#ifdef __WINDOWS_OS
+int read_bmp_matrix(FILE *, PBITMAPIMAGE);
+#endif
+PBITMAPIMAGE apply_filter(BITMAPIMAGE, const float *filter, int, int);
 BYTE to_byte(float);
-int write_bmp(const char *, BITMAP);
-void clear_shared_memory(PBITMAP *);
+int write_bmp(const char *, BITMAPIMAGE);
+void clear_shared_memory(PBITMAPIMAGE *);
 
 #endif

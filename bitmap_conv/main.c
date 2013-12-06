@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include <time.h>
 
 #include "bitmap.h"
@@ -13,7 +11,7 @@
 
 main(int argc, char *argv[]) {
 	int i;
-	BITMAP bmp, *new_bmp;
+	BITMAPIMAGE bmp, *new_bmp;
 
 	DWORD t1, t2;
 
