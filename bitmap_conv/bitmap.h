@@ -36,7 +36,7 @@ typedef struct __BITMAPFILEHEADER {
 
 typedef struct __BITMAPINFOHEADER {
   DWORD  biSize; 
-  LONG   biWidth; __BITMAPIMAGE
+  LONG   biWidth;
   LONG   biHeight; 
   WORD   biPlanes; 
   WORD   biBitCount; 

@@ -24,8 +24,11 @@ int read_bmp(const char *fname, PBITMAPIMAGE bmp) {
 
 	if (!bmp->bmPaletteLength)
 		bmp->bmPalette = NULL;
-	else
+	else {
+#ifdef __WINDOWS_OS
 		read_bmp_palette(fd, bmp);
+#endif
+	}
 
 	bmp->bmMatrixWidth = bmp->bmHeader.inf.biWidth;
 	bmp->bmMatrixHeight = labs(bmp->bmHeader.inf.biHeight);
@@ -165,7 +168,9 @@ int write_bmp(const char *fname, BITMAPIMAGE bmp) {
 
 	if (!bmp.bmMatrixBmp) {
 		printf("Incorrect bmp format");
+#ifdef __WINDOWS_OS
 		fclose(fd);
+#endif
 		return -1;
 	}
 
