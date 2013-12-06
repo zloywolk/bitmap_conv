@@ -18,6 +18,8 @@ int read_bmp(const char *fname, PBITMAPIMAGE bmp) {
 
 	/* читаем заголовок BMP файла */
 	i = fread_s(&bmp->bmHeader, sizeof(BITMAPHEADER), sizeof(BITMAPHEADER), 1, fd);
+#else
+	return -1;
 #endif
 
 	bmp->bmPaletteLength = bmp->bmHeader.bmfh.bfOffBits - sizeof(BITMAPHEADER);

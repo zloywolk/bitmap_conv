@@ -4,7 +4,7 @@
 #include "bitmap.h"
 
 #define	BMPNAME		"test1.bmp"
-#define	N_BMPNAME	"new_test.bmp"
+#define	N_BMPNAME	"new_test1.bmp"
 
 #define F_WIDTH		3
 #define	F_HEIGHT	3
@@ -15,6 +15,7 @@ main(int argc, char *argv[]) {
 
 	DWORD t1, t2;
 
+	/* ядра свертки */
 	float kernel[F_HEIGHT * F_WIDTH] = {-1, -1, -1, -1, 13.0f, -1, -1, -1, -1}; // sharp
 	//float kernel[F_HEIGHT * F_WIDTH] = {0, 1, 0, 1, -4, 1, 0, 1, 0}; // laplas
 	//float kernel[F_HEIGHT * F_WIDTH] = {1, -2, 1, -2, 4, -2, 1, -2, 1}; // laplas
