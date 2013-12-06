@@ -7,10 +7,9 @@
 int read_bmp(const char *fname, PBITMAPIMAGE bmp) {
 
 	int i;
-
-#ifdef __WINDOWS_OS
 	FILE *fd;
 
+#ifdef __WINDOWS_OS
 	if ((i = fopen_s(&fd, fname, "rb")) != 0) {
 		printf("Error open bitmap\n");
 		return i;
@@ -19,35 +18,38 @@ int read_bmp(const char *fname, PBITMAPIMAGE bmp) {
 	/* читаем заголовок BMP файла */
 	i = fread_s(&bmp->bmHeader, sizeof(BITMAPHEADER), sizeof(BITMAPHEADER), 1, fd);
 #else
+#ifdef __LINUX__
+	if (!(fd = fopen(fname, "r"))) {
+		perror("Error open bitmap\n");		
+		return -1;
+	}
+
+	i = fread(&bmp->bmHeader, sizeof(BITMAPHEADER), 1, fd);
+#else
 	return -1;
+#endif
 #endif
 
 	bmp->bmPaletteLength = bmp->bmHeader.bmfh.bfOffBits - sizeof(BITMAPHEADER);
 
 	if (!bmp->bmPaletteLength)
 		bmp->bmPalette = NULL;
-	else {
-#ifdef __WINDOWS_OS
+	else 
 		read_bmp_palette(fd, bmp);
-#endif
-	}
+	
 
 	bmp->bmMatrixWidth = bmp->bmHeader.inf.biWidth;
 	bmp->bmMatrixHeight = labs(bmp->bmHeader.inf.biHeight);
 
-#ifdef __WINDOWS_OS
 	/* чтаем все содержимое BMP файла после заголовка и палитры */
 	read_bmp_matrix(fd, bmp);
-
 	fclose(fd);
-#endif
 
 	return 0;
 }
 
 int read_bmp_palette(FILE *fd, PBITMAPIMAGE bmp) { return 0; }
 
-#ifdef __WINDOWS_OS
 int read_bmp_matrix(FILE *fd, PBITMAPIMAGE bmp) {
 	int i;
 
@@ -69,18 +71,29 @@ int read_bmp_matrix(FILE *fd, PBITMAPIMAGE bmp) {
 
 #if __BMP_AS_ARRAY
 	bmp->bmMatrixBmp = (BYTE *)malloc(bmp->bmMatrixWidth * bmp->bmMatrixHeight * sizeof(RGB_COLOR));
+#ifdef __WINDOWS_OS
 	i = fread_s(bmp->bmMatrixBmp, bmp->bmMatrixWidth * bmp->bmMatrixHeight * sizeof(RGB_COLOR), sizeof(BYTE), bmp->bmMatrixWidth * bmp->bmMatrixHeight * sizeof(RGB_COLOR), fd);
+#else
+#ifdef __LINUX__
+	i = fread(bmp->bmMatrixBmp,  sizeof(BYTE), bmp->bmMatrixWidth * bmp->bmMatrixHeight * sizeof(RGB_COLOR), fd);
+#endif
+#endif
 #else
 	bmp->bmMatrixBmp = (PRGB_COLOR *)malloc(bmp->bmMatrixWidth * bmp->bmMatrixHeight * sizeof(PRGB_COLOR));
 	for (y = 0; y < bmp->bmMatrixHeight; ++y) {
 		bmp->bmMatrixBmp[y] = (PRGB_COLOR)malloc(bmp->bmMatrixWidth * sizeof(RGB_COLOR));
+#ifdef __WINDOWS_OS
 		i = fread_s(bmp->bmMatrixBmp[y], bmp->bmMatrixWidth * sizeof(RGB_COLOR), sizeof(RGB_COLOR), bmp->bmMatrixWidth, fd);
+#else
+#ifdef __LINUX__
+		i = fread(bmp->bmMatrixBmp[y], sizeof(RGB_COLOR), bmp->bmMatrixWidth);
+#endif
+#endif
 	}
 #endif
 
 	return 0;
 }
-#endif
 
 PBITMAPIMAGE apply_filter(BITMAPIMAGE bmp, const float *filter, int f_width, int f_height) {
 	DWORD x, y, px, py;
@@ -159,20 +172,27 @@ int write_bmp(const char *fname, BITMAPIMAGE bmp) {
 	DWORD y;
 #endif
 
-#ifdef __WINDOWS_OS
-	FILE *fd;
 
+	FILE *fd;
+#ifdef __WINDOWS_OS
 	if ((i = fopen_s(&fd, fname, "wb")) != 0) {
 		printf("Can\'t create file\n");
 		return i;
 	}
+#else
+#ifdef __LINUX__
+	if(!(fd = fopen(fname, "w"))) {
+		perror("Can\'t	create file\n");
+		return -1;
+	}
+#else
+	return -2;
+#endif
 #endif
 
 	if (!bmp.bmMatrixBmp) {
 		printf("Incorrect bmp format");
-#ifdef __WINDOWS_OS
 		fclose(fd);
-#endif
 		return -1;
 	}
 
@@ -182,8 +202,7 @@ int write_bmp(const char *fname, BITMAPIMAGE bmp) {
 		return -2;
 	}
 
-#ifdef __WINDOWS_OS
-	i = fwrite((void *)&bmp.bmHeader, sizeof(BITMAPHEADER), 1, fd);	
+	i = fwrite((void *)&bmp.bmHeader, sizeof(BITMAPHEADER), 1, fd);
 
 #if __BMP_AS_ARRAY
 	i = fwrite((void *)bmp.bmMatrixBmp, sizeof(BYTE), bmp.bmMatrixWidth * bmp.bmMatrixHeight * sizeof(RGB_COLOR), fd);
@@ -193,7 +212,6 @@ int write_bmp(const char *fname, BITMAPIMAGE bmp) {
 #endif
 
 	fclose(fd);
-#endif
 	return 0;
 }
 

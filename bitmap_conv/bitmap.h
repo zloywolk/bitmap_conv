@@ -7,6 +7,8 @@
 #if defined(WIN32) || defined(_WIN32) || defined(_W64)
 #define	__WINDOWS_OS
 #include <windows.h>
+#elif defined(__linux__) || (__linux)
+#define __LINUX__
 #endif
 
 #pragma pack(push)
@@ -81,10 +83,7 @@ typedef struct __BITMAPIMAGE {
 
 int read_bmp(const char *, PBITMAPIMAGE);
 int read_bmp_palette(FILE *, PBITMAPIMAGE);
-
-#ifdef __WINDOWS_OS
 int read_bmp_matrix(FILE *, PBITMAPIMAGE);
-#endif
 PBITMAPIMAGE apply_filter(BITMAPIMAGE, const float *filter, int, int);
 BYTE to_byte(float);
 int write_bmp(const char *, BITMAPIMAGE);
