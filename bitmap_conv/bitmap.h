@@ -1,6 +1,11 @@
 #ifndef _BITMAP_
 #define _BITMAP_
 
+#define __IS_ARRAY		1
+
+#pragma pack(push)
+#pragma pack(1)
+
 typedef unsigned int	DWORD;
 typedef unsigned short	WORD;
 typedef long			LONG;
@@ -14,8 +19,6 @@ typedef unsigned char	BYTE;
 #define BI_PNG				5	/*Win98/Me/2000/XP: PNG-сжатие*/
 #define BI_ALPHABITFIELDS	6	/*WinCE: изображение не сжато, палитра содержит четыре 4-байтные маски для красной, зелёной, синей и прозрачной (альфа-канал) компонент цвета. Используется для 16- и 32-битных изображений*/
 
-#pragma pack(push)
-#pragma pack(1)
 typedef struct __BITMAPFILEHEADER {
 	WORD	bfType;
 	DWORD	bfSize;
@@ -57,15 +60,23 @@ typedef struct __BITMAP {
 
 	DWORD bmMatrixWidth;
 	DWORD bmMatrixHeight;
+#if __IS_ARRAY
 	BYTE *bmMatrixBmp;
+#else
+	PRGB_COLOR *bmMatrixBmp;
+#endif
 } BITMAP, *PBITMAP;
+
 #pragma pack(pop)
+
+/* === FUNCTIONS PROTOTYPES === */
 
 int read_bmp(const char *, PBITMAP);
 int read_bmp_palette(FILE *, PBITMAP);
 int read_bmp_matrix(FILE *, PBITMAP);
-PBITMAP assign_filter(BITMAP, const float *filter, int, int);
+PBITMAP apply_filter(BITMAP, const float *filter, int, int);
 BYTE to_byte(float);
 int write_bmp(const char *, BITMAP);
+void clear_shared_memory(PBITMAP *);
 
 #endif
