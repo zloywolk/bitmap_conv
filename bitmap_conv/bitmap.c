@@ -16,7 +16,7 @@ int read_bmp(const char *fname, PBITMAPIMAGE bmp) {
 		return i;
 	}
 
-	/* читаем заголовок BMP файла */
+	/* С‡РёС‚Р°РµРј Р·Р°РіРѕР»РѕРІРѕРє BMP С„Р°Р№Р»Р° */
 	i = fread_s(&bmp->bmHeader, sizeof(BITMAPHEADER), sizeof(BITMAPHEADER), 1, fd);
 #endif
 
@@ -34,7 +34,7 @@ int read_bmp(const char *fname, PBITMAPIMAGE bmp) {
 	bmp->bmMatrixHeight = labs(bmp->bmHeader.inf.biHeight);
 
 #ifdef __WINDOWS_OS
-	/* чтаем все содержимое BMP файла после заголовка и палитры */
+	/* С‡С‚Р°РµРј РІСЃРµ СЃРѕРґРµСЂР¶РёРјРѕРµ BMP С„Р°Р№Р»Р° РїРѕСЃР»Рµ Р·Р°РіРѕР»РѕРІРєР° Рё РїР°Р»РёС‚СЂС‹ */
 	read_bmp_matrix(fd, bmp);
 
 	fclose(fd);
@@ -88,7 +88,7 @@ PBITMAPIMAGE apply_filter(BITMAPIMAGE bmp, const float *filter, int f_width, int
 
 	PBITMAPIMAGE new_bmp = (PBITMAPIMAGE)malloc(sizeof(BITMAPIMAGE));
 	
-	/* копирование заголовка в новую структуру */
+	/* РєРѕРїРёСЂРѕРІР°РЅРёРµ Р·Р°РіРѕР»РѕРІРєР° РІ РЅРѕРІСѓСЋ СЃС‚СЂСѓРєС‚СѓСЂСѓ */
 	new_bmp->bmHeader = bmp.bmHeader;
 	new_bmp->bmMatrixHeight = bmp.bmMatrixHeight;
 	new_bmp->bmMatrixWidth = bmp.bmMatrixWidth;
@@ -100,7 +100,7 @@ PBITMAPIMAGE apply_filter(BITMAPIMAGE bmp, const float *filter, int f_width, int
 	new_bmp->bmMatrixBmp = (PRGB_COLOR *)malloc(bmp.bmMatrixWidth * bmp.bmMatrixHeight * sizeof(PRGB_COLOR));
 #endif
 
-	/* применение искомого фильтра */
+	/* РїСЂРёРјРµРЅРµРЅРёРµ РёСЃРєРѕРјРѕРіРѕ С„РёР»СЊС‚СЂР° */
 	for (x = 0; x < bmp.bmMatrixWidth; ++x) {
 		for(y = 0; y < bmp.bmMatrixHeight; ++y) {
 #if !__BMP_AS_ARRAY
@@ -176,7 +176,7 @@ int write_bmp(const char *fname, BITMAPIMAGE bmp) {
 
 	/* save content */
 	if (bmp.bmPaletteLength) {
-		printf("Палитра не поддерживается");
+		printf("РџР°Р»РёС‚СЂР° РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ");
 		return -2;
 	}
 
