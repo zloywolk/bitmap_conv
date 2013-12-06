@@ -5,7 +5,7 @@
 
 
 #if defined(WIN32) || defined(_WIN32) || defined(_W64)
-#define	__WINDOWS_OS
+#define	__WINDOWS__
 #include <windows.h>
 #elif defined(__linux__) || (__linux)
 #define __LINUX__
@@ -14,7 +14,7 @@
 #pragma pack(push)
 #pragma pack(1)
 
-#ifndef __WINDOWS_OS
+#ifndef __WINDOWS__
 typedef unsigned int	DWORD;
 typedef unsigned short	WORD;
 typedef long			LONG;

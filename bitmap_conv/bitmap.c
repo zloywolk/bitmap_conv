@@ -9,7 +9,7 @@ int read_bmp(const char *fname, PBITMAPIMAGE bmp) {
 	int i;
 	FILE *fd;
 
-#ifdef __WINDOWS_OS
+#ifdef __WINDOWS__
 	if ((i = fopen_s(&fd, fname, "rb")) != 0) {
 		printf("Error open bitmap\n");
 		return i;
@@ -71,7 +71,7 @@ int read_bmp_matrix(FILE *fd, PBITMAPIMAGE bmp) {
 
 #if __BMP_AS_ARRAY
 	bmp->bmMatrixBmp = (BYTE *)malloc(bmp->bmMatrixWidth * bmp->bmMatrixHeight * sizeof(RGB_COLOR));
-#ifdef __WINDOWS_OS
+#ifdef __WINDOWS__
 	i = fread_s(bmp->bmMatrixBmp, bmp->bmMatrixWidth * bmp->bmMatrixHeight * sizeof(RGB_COLOR), sizeof(BYTE), bmp->bmMatrixWidth * bmp->bmMatrixHeight * sizeof(RGB_COLOR), fd);
 #else
 #ifdef __LINUX__
@@ -82,7 +82,7 @@ int read_bmp_matrix(FILE *fd, PBITMAPIMAGE bmp) {
 	bmp->bmMatrixBmp = (PRGB_COLOR *)malloc(bmp->bmMatrixWidth * bmp->bmMatrixHeight * sizeof(PRGB_COLOR));
 	for (y = 0; y < bmp->bmMatrixHeight; ++y) {
 		bmp->bmMatrixBmp[y] = (PRGB_COLOR)malloc(bmp->bmMatrixWidth * sizeof(RGB_COLOR));
-#ifdef __WINDOWS_OS
+#ifdef __WINDOWS__
 		i = fread_s(bmp->bmMatrixBmp[y], bmp->bmMatrixWidth * sizeof(RGB_COLOR), sizeof(RGB_COLOR), bmp->bmMatrixWidth, fd);
 #else
 #ifdef __LINUX__
@@ -174,7 +174,7 @@ int write_bmp(const char *fname, BITMAPIMAGE bmp) {
 
 
 	FILE *fd;
-#ifdef __WINDOWS_OS
+#ifdef __WINDOWS__
 	if ((i = fopen_s(&fd, fname, "wb")) != 0) {
 		printf("Can\'t create file\n");
 		return i;

@@ -9,6 +9,8 @@
 #define F_WIDTH		3
 #define	F_HEIGHT	3
 
+// TODO: Начать разработку многопоточного решения
+
 int main(int argc, char *argv[]) {
 	int i;
 	BITMAPIMAGE bmp, *new_bmp;
