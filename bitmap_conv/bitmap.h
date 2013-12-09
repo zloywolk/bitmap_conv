@@ -1,15 +1,9 @@
 #ifndef _BITMAP_
 #define _BITMAP_
 
+#include "osdetect.h"
+
 #define __BMP_AS_ARRAY		1
-
-
-#if defined(WIN32) || defined(_WIN32) || defined(_W64)
-#define	__WINDOWS__
-#include <windows.h>
-#elif defined(__linux__) || (__linux)
-#define __LINUX__
-#endif
 
 #pragma pack(push)
 #pragma pack(1)

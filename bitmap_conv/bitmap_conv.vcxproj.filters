@@ -22,5 +22,8 @@
     <ClInclude Include="bitmap.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="osdetect.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
