@@ -3,8 +3,8 @@
 
 #include "bitmap.h"
 
-#define	BMPNAME		"test1.bmp"
-#define	N_BMPNAME	"new_test1.bmp"
+#define	BMPNAME		"test.bmp"
+#define	N_BMPNAME	"new_test.bmp"
 
 #define F_WIDTH		3
 #define	F_HEIGHT	3
@@ -30,6 +30,8 @@ int main(int argc, char *argv[]) {
 		printf("Can\'t read a bmp file\n");
 		return i;
 	}
+
+	printf("bmp[0x157] = %d\n", bmp.bmMatrixBmp[0x157 - 0x36]);
 
 	new_bmp = apply_filter(bmp, kernel, F_WIDTH, F_HEIGHT);
 
