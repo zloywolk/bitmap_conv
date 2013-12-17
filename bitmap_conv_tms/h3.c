@@ -15,7 +15,7 @@ CHAN *in_p[], *out_p[];
 	int t1, t2, t3, t4;
 
 	int image_size, width, height, color_size;
-#if !__IS_SINGLE_CPU 
+#if NUM_OF_CPUS > 1 
 	pdebug("H3: Recieve & process sizes of image and arrays\n");
 	chan_in_word(&width, in_p[0]);
 	chan_in_word(&height, in_p[0]);

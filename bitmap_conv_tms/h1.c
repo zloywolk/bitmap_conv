@@ -61,17 +61,23 @@ CHAN *in_p[], *out_p[];
 
 	bmp = create_rgb_matrix(bmp_temp, actual_size);
 
-#if !__IS_SINGLE_CPU
+#if NUM_OF_CPUS > 0
 	red = (int *)malloc(color_size * sizeof(int));
+#endif
+#if NUM_OF_CPUS > 1
 	green = (int *)malloc(color_size * sizeof(int));
+#endif
+#if NUM_OF_CPUS > 2
 	blue = (int *)malloc(color_size * sizeof(int));
+#endif
 
+#if NUM_OF_CPUS > 0
 	for(i = 0; i < NUM_OF_CPUS; ++i)
 	{
 		chan_out_word(width, out_p[i]);
 		chan_out_word(abs(height), out_p[i]);
 
-		pdebug("H1: First byte of the BMP COLOR (RGB): %0x%02x\n", bmp[i]);
+		pdebug("H1: First byte of the BMP COLOR (RGB): 0x%02x\n", bmp[i]);
 		chan_out_message(image_size * sizeof(char), (void *)bmp, out_p[i]);
 		chan_out_message(K_WIDTH * K_HEIGHT * sizeof(float), (void *)kernel, out_p[i]);
 		
@@ -94,9 +100,18 @@ CHAN *in_p[], *out_p[];
 		if (i % NUM_OF_CPUS == 2) chan_in_word(&b, in_p[i]);*/
 	}	
 
+	r = rand() % actual_size;
 	chan_in_message(color_size * sizeof(int), (void *)red, in_p[0]);
+	pdebug("H1: Random [%d] byte of the NEW RED: 0x%02x\n", r, red[r]);
+#endif
+#if NUM_OF_CPUS > 1
 	chan_in_message(color_size * sizeof(int), (void *)green, in_p[1]);
+	pdebug("H1: Random [%d] byte of the NEW GREEN: 0x%02x\n", r, green[r]);
+#endif
+#if NUM_OF_CPUS > 2
 	chan_in_message(color_size * sizeof(int), (void *)blue, in_p[2]);
+	pdebug("H1: Random [%d] byte of the NEW BLUE: 0x%02x\n", r, blue[r]);
+#endif
 
 /*
 	chan_in_word(&r, in_p[0]);
@@ -109,16 +124,18 @@ CHAN *in_p[], *out_p[];
 	pdebug("H1: Random byte of the NEW BLUE: 0x%02x\n", b);
 */
 	r = rand() % actual_size;
-	pdebug("H1: Random [%d] byte of the NEW RED: 0x%02x\n", r, red[r]);
-	pdebug("H1: Random [%d] byte of the NEW GREEN: 0x%02x\n", r, green[r]);
-	pdebug("H1: Random [%d] byte of the NEW BLUE: 0x%02x\n", r, blue[r]);
-#else
+#if NUM_OF_CPUS < 3
 	t3 = timer_now();
-	red = apply_filter(bmp, kernel, width, abs(height), RED);
-	green = apply_filter(bmp, kernel, width, abs(height), GREEN);
 	blue = apply_filter(bmp, kernel, width, abs(height), BLUE);
-	t4 = timer_now();
 #endif
+#if NUM_OF_CPUS < 2
+	green = apply_filter(bmp, kernel, width, abs(height), GREEN);
+#endif
+#if NUM_OF_CPUS < 1
+	red = apply_filter(bmp, kernel, width, abs(height), RED);
+#endif
+	t4 = timer_now();
+
 
 	new_bmp = create_bmp(red, green, blue, color_size);
 	if(new_bmp) {
@@ -152,6 +169,9 @@ CHAN *in_p[], *out_p[];
 	pdebug("t2 - t1 = %d ms\n", t2 - t1);
 
 #if __IS_SINGLE_CPU
+	pdebug("H1: Full process of BMP: t2 - t1 = %d ms\n", t2 - t1);
+
+#if NUM_OF_CPUS < 3
 	pdebug("H1: Only BMP process: t4 - t3 = %d ms\n", t4 - t3);
 #endif
 
