@@ -1,0 +1,141 @@
+Open a bmp file
+K_WIDTH / 2 = 1
+K_WIDTH / 2 = 1
+K_WIDTH / 2 = 1
+H1: Create a bmp file
+Writed bytes: 52
+Writed bytes: 102960
+width = 360
+height = -286
+offset = 54
+image_size = 308880
+Close the file
+H1: Full process of BMP: t2 - t1 = 5311 ms
+H1: Only BMP process: t4 - t3 = 5052 ms
+SUCCESS
+
+Open a bmp file
+H2: Recieve & process sizes of image and arrays
+H1: First byte of the BMP COLOR (RGB): 0xfd
+H2: image_size = COLOR_STRUCT_SIZE * width * height = 3 * 360 * 286 = 308880
+H2: color_size = width * height = 360 * 286 = 102960
+H2: Recieve bmp color array
+H2: Recieve kernel
+H1 [0]: KERNEL =>
+H2: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+H1: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+K_WIDTH / 2 = 1
+H2: Process RED COLOR: t4 - t3 = 1628 ms
+H2: First byte of the NEW RED: 0xfd
+H2: Send RED ARRAY
+H1: Random [20329] byte of the NEW RED: 0xf9
+K_WIDTH / 2 = 1
+K_WIDTH / 2 = 1
+H1: Create a bmp file
+Writed bytes: 52
+Writed bytes: 102960
+width = 360
+height = -286
+offset = 54
+image_size = 308880
+Close the file
+H1: Full process of BMP: t2 - t1 = 5282 ms
+H1: Only BMP process: t4 - t3 = 3251 ms
+SUCCESS
+
+Open a bmp file
+H2: Recieve & process sizes of image and arrays
+H3: Recieve & process sizes of image and arrays
+H1: First byte of the BMP COLOR (RGB): 0xfd
+H2: image_size = COLOR_STRUCT_SIZE * width * height = 3 * 360 * 286 = 308880
+H2: color_size = width * height = 360 * 286 = 102960
+H2: Recieve bmp color array
+H2: Recieve kernel
+H1 [0]: KERNEL =>
+H2: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+H1: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+K_WIDTH / 2 = 1
+H1: First byte of the BMP COLOR (RGB): 0xf3
+H3: image_size = COLOR_STRUCT_SIZE * width * height = 3 * 360 * 286 = 308880
+H3: color_size = width * height = 360 * 286 = 102960
+H3: Recieve bmp color array
+H3: Recieve kernel
+H1 [1]: KERNEL =>
+H3: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+H1: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+K_WIDTH / 2 = 1
+H2: Process RED COLOR: t4 - t3 = 1735 ms
+H2: First byte of the NEW RED: 0xfd
+H2: Send RED ARRAY
+H1: Random [17015] byte of the NEW RED: 0x15
+H3: Process GREEN COLOR: t4 - t3 = 1955 ms
+H3: First byte of the NEW GREEN: 0xf3
+H3: Send GREEN ARRAY
+H1: Random [17015] byte of the NEW GREEN: 0x1d
+K_WIDTH / 2 = 1
+H1: Create a bmp file
+Writed bytes: 52
+Writed bytes: 102960
+width = 360
+height = -286
+offset = 54
+image_size = 308880
+Close the file
+H1: Full process of BMP: t2 - t1 = 4204 ms
+H1: Only BMP process: t4 - t3 = 1626 ms
+SUCCESS
+
+Open a bmp file
+H2: Recieve & process sizes of image and arrays
+H4: Recieve & process sizes of image and arrays
+H3: Recieve & process sizes of image and arrays
+H1: First byte of the BMP COLOR (RGB): 0xfd
+H2: image_size = COLOR_STRUCT_SIZE * width * height = 3 * 360 * 286 = 308880
+H2: color_size = width * height = 360 * 286 = 102960
+H2: Recieve bmp color array
+H2: Recieve kernel
+H1 [0]: KERNEL =>
+H2: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+H1: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+K_WIDTH / 2 = 1
+H1: First byte of the BMP COLOR (RGB): 0xf3
+H3: image_size = COLOR_STRUCT_SIZE * width * height = 3 * 360 * 286 = 308880
+H3: color_size = width * height = 360 * 286 = 102960
+H3: Recieve bmp color array
+H3: Recieve kernel
+H1 [1]: KERNEL =>
+H3: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+H1: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+K_WIDTH / 2 = 1
+H1: First byte of the BMP COLOR (RGB): 0xe2
+H4: image_size = COLOR_STRUCT_SIZE * width * height = 3 * 360 * 286 = 308880
+H4: color_size = width * height = 360 * 286 = 102960
+H4: Recieve bmp color array
+H4: Recieve kernel
+H1 [2]: KERNEL =>
+H4: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+H1: -1.00 -1.00 -1.00 -1.00 9.00 -1.00 -1.00 -1.00 -1.00
+K_WIDTH / 2 = 1
+H2: Process RED COLOR: t4 - t3 = 1735 ms
+H2: First byte of the NEW RED: 0xfd
+H2: Send RED ARRAY
+H1: Random [2189] byte of the NEW RED: 0xec
+H4: Process BLUE COLOR: t4 - t3 = 1629 ms
+H4: First byte of the NEW BLUE: 0xe2
+H4: Send BLUE ARRAY
+H3: Process GREEN COLOR: t4 - t3 = 1954 ms
+H3: First byte of the NEW GREEN: 0xf3
+H3: Send GREEN ARRAY
+H1: Random [2189] byte of the NEW GREEN: 0xd8
+H1: Random [2189] byte of the NEW BLUE: 0xde
+H1: Create a bmp file
+Writed bytes: 52
+Writed bytes: 102960
+width = 360
+height = -286
+offset = 54
+image_size = 308880
+Close the file
+H1: Full process of BMP: t2 - t1 = 2622 ms
+SUCCESS
+
