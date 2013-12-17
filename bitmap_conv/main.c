@@ -3,8 +3,8 @@
 
 #include "bitmap.h"
 
-#define	BMPNAME		"test1.bmp"
-#define	N_BMPNAME	"new_test1.bmp"
+#define	BMPNAME		"test.bmp"
+#define	N_BMPNAME	"new_test.bmp"
 
 #define F_WIDTH		3
 #define	F_HEIGHT	3
@@ -18,8 +18,8 @@ int main(int argc, char *argv[]) {
 	DWORD t1, t2;
 
 	/* ядра свертки */
-	//float kernel[F_HEIGHT * F_WIDTH] = {-1, -1, -1, -1, 9.0f, -1, -1, -1, -1}; // sharp
-	float kernel[F_HEIGHT * F_WIDTH] = {0, 1, 0, 1, -4, 1, 0, 1, 0}; // laplas
+	float kernel[F_HEIGHT * F_WIDTH] = {-1, -1, -1, -1, 9.0f, -1, -1, -1, -1}; // sharp
+	//float kernel[F_HEIGHT * F_WIDTH] = {0, 1, 0, 1, -4, 1, 0, 1, 0}; // laplas
 	//float kernel[F_HEIGHT * F_WIDTH] = {1, -2, 1, -2, 4, -2, 1, -2, 1}; // laplas
 	//float kernel[F_HEIGHT * F_WIDTH] = {0, 1, 0, -1, 0, 1, 0, -1, 0}; // тиснение
 	//float kernel[F_HEIGHT * F_WIDTH] = {1, 2, 1, 2, 4, 2, 1, 2, 1};
@@ -29,6 +29,10 @@ int main(int argc, char *argv[]) {
 	if ((i = read_bmp(BMPNAME, &bmp)) != 0) {
 		printf("Can\'t read a bmp file\n");
 		return i;
+	}
+
+	for(i = 0; i < 64; ++i) {
+		printf("RED [%d] = 0x%02x, GREEN [%d] = 0x%02x, BLUE [%d] = 0x%02x\n", i, bmp.bmMatrixBmp[i * 3], i, bmp.bmMatrixBmp[i * 3 + 1], i, bmp.bmMatrixBmp[i * 3 + 2]);
 	}
 
 	new_bmp = apply_filter(bmp, kernel, F_WIDTH, F_HEIGHT);

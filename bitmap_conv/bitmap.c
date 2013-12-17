@@ -10,7 +10,7 @@ int read_bmp(const char *fname, PBITMAPIMAGE bmp) {
 	FILE *fd;
 
 #ifdef __WINDOWS__
-	if ((i = fopen_s(&fd, fname, "rb")) != 0) {
+	if ((i = fopen_s(&fd, fname, "r")) != 0) {
 		printf("Error open bitmap\n");
 		return i;
 	}

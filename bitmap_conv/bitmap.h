@@ -1,5 +1,5 @@
-#ifndef _BITMAP_
-#define _BITMAP_
+#ifndef _BITMAP_H_
+#define _BITMAP_H_
 
 #include "osdetect.h"
 
