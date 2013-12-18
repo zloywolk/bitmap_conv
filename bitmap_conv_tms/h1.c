@@ -32,6 +32,9 @@ CHAN *in_p[], *out_p[];
 
 	int *bmp_temp;
 	int t1, t2, t3, t4;
+	int t_red1, t_red2;
+	int t_green1, t_green2;
+	int t_blue1, t_blue2;
 	int r, g, b;
 
 	int width = 0, height = 0, actual_height = 0, offset = 0, image_size = 0, color_size, actual_size = 0;
@@ -126,13 +129,19 @@ CHAN *in_p[], *out_p[];
 	r = rand() % actual_size;
 #if NUM_OF_CPUS < 3
 	t3 = timer_now();
+	t_blue1 = timer_now();
 	blue = apply_filter(bmp, kernel, width, abs(height), BLUE);
+	t_blue2 = timer_now();
 #endif
 #if NUM_OF_CPUS < 2
+	t_green1 = timer_now();
 	green = apply_filter(bmp, kernel, width, abs(height), GREEN);
+	t_green2 = timer_now();
 #endif
 #if NUM_OF_CPUS < 1
+	t_red1 = timer_now();
 	red = apply_filter(bmp, kernel, width, abs(height), RED);
+	t_red2 = timer_now();
 #endif
 	t4 = timer_now();
 
@@ -166,13 +175,17 @@ CHAN *in_p[], *out_p[];
 
 
 	pdebug("Close the file\n");
-	pdebug("t2 - t1 = %d ms\n", t2 - t1);
-
-#if __IS_SINGLE_CPU
 	pdebug("H1: Full process of BMP: t2 - t1 = %d ms\n", t2 - t1);
 
 #if NUM_OF_CPUS < 3
 	pdebug("H1: Only BMP process: t4 - t3 = %d ms\n", t4 - t3);
+	pdebug("H1: Only BLUE Color process: %d\n", t_blue2 - t_blue1);
+#if NUM_OF_CPUS < 2
+	pdebug("H1: Only GREEN Color process: %d\n", t_green2 - t_green1);
+#endif
+#if NUM_OF_CPUS < 1
+	pdebug("H1: Only RED Color process: %d\n", t_red2 - t_red1);
+#endif
 #endif
 
 	pdebug("SUCCESS\n");

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#define BMPNAME 	"test.bmp"
+#define BMPNAME 	"test1.bmp"
 /*#define NBMPNAME 	"/student/k512b/k512b05/bitmap_conv/bitmap_conv_tms/n_test.bmp"*/
 #define NBMPNAME 	"n_test.bmp"
 
